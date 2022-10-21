@@ -3,6 +3,7 @@
 
 const x = Number(window.prompt("Enter the first number", ""));
 const y = Number(window.prompt("Enter the second number", ""));
+const operator = window.prompt("Enter operator", "");
 
 function add(x, y) {
   // const add = num1 + num2;
@@ -32,7 +33,19 @@ function divide(x, y) {
   // document.getElementById("result").textContent = "Addition : " + add;        
 }
 
-add(x, y);
-subtract(x, y);
-multiply(x, y);
-divide(x, y);
+function operate(x, y) {
+  if (operator == "+") {
+    add(x, y);
+  }
+  if (operator == "-") {
+    subtract(x, y);
+  }
+  if (operator == "*") {
+    multiply(x, y);
+  }
+  if (operator == "/") {
+    divide(x, y);
+  }
+}
+
+operate(x, y);
