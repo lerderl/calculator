@@ -19,5 +19,13 @@
   margin-left: 5px;
 }
 .center {
-  text-align: center;
+  grid-column: 1 / -1;
+  color: rgb(211, 204, 204);
+  background-color: #2d384a;
+  display: flex;
+  margin-top: 5px;
+  margin-left: 5px;
+  align-items: flex-end;
+  flex-direction: column;
+  padding: 10px;
 }
