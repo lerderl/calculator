@@ -48,7 +48,7 @@ function operate(x, op, y) {
     result = divide(num1, num2);
   }
 
-  currNum = result.toFixed(4);
+  currNum = roundAccurately(result, 4).toString();
   prevNum  = "";
   operator = undefined;
 }
@@ -117,3 +117,7 @@ deleteBtn.addEventListener("click", () => {
   deletion();
   updateScreen();
 });
+
+function roundAccurately(num, places) {
+  return parseFloat(Math.round(num + 'e' + places) + 'e-' + places);
+}
