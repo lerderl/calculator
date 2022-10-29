@@ -1,51 +1,119 @@
-// const num1 = Number(document.getElementById("val1").value);
-// const num2 = Number(document.getElementById("val2").value);
+let currNum = "",
+prevNum = "",
+operator = undefined;
 
-const x = Number(window.prompt("Enter the first number", ""));
-const y = Number(window.prompt("Enter the second number", ""));
-const operator = window.prompt("Enter operator", "");
+const finalResult = document.querySelector(".center");
+const clearBtn = document.querySelector(".clear");
+const deleteBtn = document.querySelector(".delete");
+const operatorBtn = document.querySelectorAll(".operator");
+const numberBtn = document.querySelectorAll(".number");
+const equalsBtn = document.querySelector(".equal");
 
 function add(x, y) {
-  // const add = num1 + num2;
-  const add = x + y;
-  console.log(add);
-  // document.getElementById("result").textContent = "Addition : " + add;        
+  return x + y;       
 }
 
 function subtract(x, y) {
-  // const add = num1 + num2;
-  const subtract = x - y;
-  console.log(subtract);
-  // document.getElementById("result").textContent = "Addition : " + add;        
+  return x - y;       
 }
 
 function multiply(x, y) {
-  // const add = num1 + num2;
-  const multiply = x * y;
-  console.log(multiply);
-  // document.getElementById("result").textContent = "Addition : " + add;        
+  return x * y;     
 }
 
 function divide(x, y) {
-  // const add = num1 + num2;
-  const divide = x / y;
-  console.log(divide);
-  // document.getElementById("result").textContent = "Addition : " + add;        
+  if (y === 0) {
+    return "Can't divide by zero";
+  }
+  return x / y;      
 }
 
-function operate(x, y) {
-  if (operator == "+") {
-    add(x, y);
+function operate(x, op, y) {
+  let result;
+  const num1 = parseFloat(x);
+  const num2 = parseFloat(y);
+  if (op === undefined) {
+    return;
   }
-  if (operator == "-") {
-    subtract(x, y);
+  if (op == "+") {
+    result = add(num1, num2);
   }
-  if (operator == "*") {
-    multiply(x, y);
+  if (op == "-") {
+    result = subtract(num1, num2);
   }
-  if (operator == "/") {
-    divide(x, y);
+  if (op == "x") {
+    result = multiply(num1, num2);
+  }
+  if (op == "/") {
+    result = divide(num1, num2);
+  }
+
+  currNum = result.toFixed(4);
+  prevNum  = "";
+  operator = undefined;
+}
+
+function inputNumber(number) {
+  if ((number === "." && currNum.includes(".")) || (number === "0" && currNum.includes("0")))
+    return;
+    currNum = currNum.toString() + number.toString();
+}
+
+function inputOperator(op) {
+  if (operator !== undefined) {
+    operator = op;
+  }
+  if (currNum === "") return;
+  if (prevNum !== "") {
+    operate(currNum, op, prevNum);
+  }
+  operator = op;
+  prevNum = currNum;
+  currNum = "";
+}
+
+function clear() {
+  currNum = "";
+  prevNum = "";
+  operator = undefined;
+}
+
+function deletion() {
+  currNum = currNum.toString().slice(0, -1);
+}
+
+function updateScreen() {
+  finalResult.innerText = currNum;
+  if (operator != undefined) {
+    finalResult.innerText = `${prevNum} ${operator} ${currNum}`;
   }
 }
 
-operate(x, y);
+numberBtn.forEach(button => {
+  button.addEventListener('click', () => {
+    inputNumber(button.innerText);
+    updateScreen();
+  })
+});
+
+operatorBtn.forEach(button => {
+  button.addEventListener('click', () => {
+    inputOperator(button.innerText);
+    updateScreen();
+  })
+});
+
+equalsBtn.addEventListener("click", () => {
+  operate(prevNum, operator, currNum);
+  updateScreen();
+});
+
+clearBtn.addEventListener("click", () => {
+  clear();
+  updateScreen();
+});
+
+deleteBtn.addEventListener("click", () => {
+  deletion();
+  updateScreen();
+});
